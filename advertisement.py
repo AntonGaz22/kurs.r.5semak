@@ -39,15 +39,19 @@ def create_vehicle_window(info, parent=None):
 
         # # Разделить строку 'images' на ";" и отобразить каждое изображение
         images = vehicle_info.get('images', '').split(';')
+
         for image_path in images:
-            image = Image.open(image_path)
-            height = 100  # высота изображения
-            width = int((height / image.size[1]) * image.size[0])  # ширина пропорционально высоте
-            image = image.resize((width, height))
-            photo = ImageTk.PhotoImage(image)
-            image_label = tk.Label(image_frame, image=photo)
-            image_label.image = photo
-            image_label.pack(side="left")
+            try:
+                image = Image.open(image_path)
+                height = 100  # высота изображения
+                width = int((height / image.size[1]) * image.size[0])  # ширина пропорционально высоте
+                image = image.resize((width, height))
+                photo = ImageTk.PhotoImage(image)
+                image_label = tk.Label(image_frame, image=photo)
+                image_label.image = photo
+                image_label.pack(side="left")
+            except:
+                pass
 
 
     for vehicle in info:

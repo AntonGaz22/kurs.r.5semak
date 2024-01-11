@@ -6,20 +6,15 @@ from tkinter import *
 from datetime import datetime
 from tkinter import ttk, scrolledtext
 from tkinter import filedialog
-from database import get_marki
-from database import get_models
+from database import *
 
 ADVERTISEMENTS = []
 
 def create_add_window(parent=None):
-    CARS = json.load(open('cars.json', encoding='utf-8'))
+    form_data = get_data_from_form()
 
-    TRANSMISSIONS = [
-        {'id': 1, 'title': 'Механическая'},
-        {'id': 2, 'title': 'Автоматическая'},
-        {'id': 3, 'title': 'Вариатор'},
-        {'id': 4, 'title': 'Робот'},
-    ]
+    CARS = form_data['cars']
+    TRANSMISSIONS = form_data['transmissions']
 
     IMAGES = []  # Список для хранения путей к изображениям
 
@@ -67,14 +62,14 @@ def create_add_window(parent=None):
         data = {
             "make": make_combobox.get(),
             "model": model_combobox.get(),
-            "year": year_entry.get(),
             "transmission": transmission_combobox.get(),
+            "year": year_entry.get(),
             "phone": phone_entry.get(),
             "comment": comment_text.get(1.0, END),
             "images": ';'.join(IMAGES)
         }
 
-        ADVERTISEMENTS.append(data)
+        add_new_advertisement(data)
         clear_screnn()
 
     # Создаем главное окно
@@ -88,7 +83,7 @@ def create_add_window(parent=None):
 
     # Combobox (выпадающий список) с марками машин
     selected_make_var = tk.StringVar()
-    make_combobox = ttk.Combobox(root_new, textvariable=selected_make_var, values=get_marki())
+    make_combobox = ttk.Combobox(root_new, textvariable=selected_make_var, values=list(CARS.keys()))
     make_combobox.grid(row=0, column=1, padx=10, pady=10, columnspan=2, sticky="ew")  # Используйте sticky="ew" для растяжения Combobox
     make_combobox.bind("<<ComboboxSelected>>", update_models)
 
@@ -98,7 +93,7 @@ def create_add_window(parent=None):
 
     # Combobox (выпадающий список) с моделями машин
     selected_model_var = tk.StringVar()
-    model_combobox = ttk.Combobox(root_new, textvariable=selected_model_var, values=get_models())
+    model_combobox = ttk.Combobox(root_new, textvariable=selected_model_var, values=[])
     model_combobox.grid(row=1, column=1, padx=10, pady=10, columnspan=2, sticky="ew")
 
     # Label "Год выпуска"
@@ -149,3 +144,4 @@ def create_add_window(parent=None):
     # Создаем кнопку на главном окне
     button = tk.Button(root_new, text="Загрузить данные", command=collect_data)
     button.grid(row=9, column=0, padx=10, pady=10, columnspan=3, sticky="ew")
+

@@ -1,8 +1,7 @@
 import tkinter as tk
 from create import create_add_window, ADVERTISEMENTS
 from advertisement import create_vehicle_window
-#from database import Database
-
+from database import all_advertisements
 
 # Создаем главное окно
 root = tk.Tk()
@@ -19,7 +18,7 @@ def add_advert():
 
 def all_advert():
     # открытие окна просмотра всех объявлений
-    create_vehicle_window(info=ADVERTISEMENTS, parent=root)
+    create_vehicle_window(info=all_advertisements(), parent=root)
 
 # Создаем шрифт с размером 14px
 font = ("Helvetica", 14)
@@ -32,11 +31,5 @@ btn_all = tk.Button(root, text="Просмотреть объявления", co
 btn_new.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 btn_all.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
-def setupBazd(self):
-  #  self.db= Database('auto.db')
-    self.db.create_table()
-
 # Запускаем главное окно
 root.mainloop()
-
-#db = Database('auto.db')
