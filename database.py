@@ -91,3 +91,10 @@ def all_advertisements():
                  'Телефон': item[5], 'Комментарий': item[6], 'images': item[7]} for item in
                 select_all(cursor, QUERIES_LIST['all_advertisements_query'])]
 '''создаем функцию all_advertisements, которая заполняет данные в базу данных'''
+
+def delete_advertisement(advertisement_id):
+    with (sqlite3.connect(DB_NAME) as conn):
+       cursor = conn.cursor()
+    query = f"DELETE FROM advertisement WHERE id = {advertisement_id}"
+    delete(cursor, query)
+    '''Создаем функцию, которая удаляет данные из базы данных по указанному идентификатору данных. Конкретно, она создает подключение к базе данных SQLite, создает курсор для выполнения запросов, создает запрос DELETE для удаления данных с указанным идентификатором и вызывает функцию delete() для выполнения запроса'''
